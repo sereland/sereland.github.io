@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>使用Github Actions实现Hexo博客的自动部署 - Sereland</title>
+
+  
+    <meta name="description" content="什么是Github Actions简单来说，Actions是一个工作流（Workflow），可以根据设定的触发条件，执行一连串预设的操作，从而实现工作的自动执行。具体可以参考这篇文章。在写博客场景下，我们希望有这样的一个Actions，当我们将写好的博客推到Github时，Actions能帮我们自动执行hexo g、hexo d这些操作。这样我们在写完博客后，push到Github上就行了，其余的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Github Actions实现Hexo博客的自动部署">
+<meta property="og:url" content="http://sereland.github.io/2023/08/19/hexo-with-actions/index.html">
+<meta property="og:site_name" content="Sereland">
+<meta property="og:description" content="什么是Github Actions简单来说，Actions是一个工作流（Workflow），可以根据设定的触发条件，执行一连串预设的操作，从而实现工作的自动执行。具体可以参考这篇文章。在写博客场景下，我们希望有这样的一个Actions，当我们将写好的博客推到Github时，Actions能帮我们自动执行hexo g、hexo d这些操作。这样我们在写完博客后，push到Github上就行了，其余的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://sereland.github.io/2023/08/19/hexo-with-actions/generate_new_token.png">
+<meta property="og:image" content="http://sereland.github.io/2023/08/19/hexo-with-actions/secrets.png">
+<meta property="og:image" content="http://sereland.github.io/2023/08/19/hexo-with-actions/image.png">
+<meta property="article:published_time" content="2023-08-19T12:51:05.000Z">
+<meta property="article:modified_time" content="2023-08-19T13:20:35.045Z">
+<meta property="article:author" content="Sereland">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://sereland.github.io/2023/08/19/hexo-with-actions/generate_new_token.png">
+  
+  
+  
+  <meta name="keywords" content="教程">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="/avatar/favicon-32x32.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="print" onload="this.media='all'">
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/avatar/touxiang.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Sereland</div><div class="sub normal cap">Sereland = Serene + Land</div><div class="sub hover cap" style="opacity:0"> 🌳🌳🌳🌳🌳🌳🌳🌳</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">博客</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">使用Github Actions实现Hexo博客的自动部署</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFGithub-Actions"><span class="toc-text">什么是Github Actions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E4%BB%93%E5%BA%93"><span class="toc-text">两个仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Secrets"><span class="toc-text">Secrets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEActions"><span class="toc-text">配置Actions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-08-19T12:51:05.000Z">2023-08-19</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>使用Github Actions实现Hexo博客的自动部署</span></h1>
+<h2 id="什么是Github-Actions"><a href="#什么是Github-Actions" class="headerlink" title="什么是Github Actions"></a>什么是Github Actions</h2><p>简单来说，Actions是一个工作流（Workflow），可以根据设定的触发条件，执行一连串预设的操作，从而实现工作的自动执行。具体可以参考<a target="_blank" rel="noopener" href="https://zkqiang.cn/posts/e8ed6836/">这篇文章</a>。在写博客场景下，我们希望有这样的一个Actions，当我们将写好的博客推到Github时，Actions能帮我们自动执行<code>hexo g</code>、<code>hexo d</code>这些操作。这样我们在写完博客后，push到Github上就行了，其余的博客编译，部署都是自动的，大大降低了复杂度。</p>
+<p>为了实现上面的功能，我们首先需要创建两个仓库：源码库和公开库。</p>
+<h2 id="两个仓库"><a href="#两个仓库" class="headerlink" title="两个仓库"></a>两个仓库</h2><ul>
+<li>源码库<br>可以使用 <code>hexo init blog</code>来创建一个名为blog的源码库，源码库用来存放博客源文件（markdown文件）。需要将本地创建的源码库push到Github上。推到Github上后，源码库可以设为私有库。</li>
+<li>公开库<br>如果我们在源码库里执行<code>hexo g</code>会产生一个<code>public</code>文件夹，这个文件夹就是公开库，在Github上对应<code>$&#123;username&#125;.github.io</code>。</li>
+</ul>
+<p>整体的流程是：本地写博客-&gt;push到源码库-&gt;命中Actions的触发条件，自动执行编译-&gt;自动将编译得到的public文件夹内容push到公开库-&gt;完成。</p>
+<h2 id="Secrets"><a href="#Secrets" class="headerlink" title="Secrets"></a>Secrets</h2><p>Secrets可以理解为Actions工作的一个凭证，在Github上创建。创建方式是：头像-&gt;Settings-&gt;Developer Settings-&gt;Personal Access Tokens-&gt;Tokens(classic)-&gt;Generate new token-&gt;选择workflow，如下所示</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="generate_new_token.png"/></div></div>
+<p>然后拷贝生成的token，打开Github上的源码库-&gt;Settings-&gt;Secrets and variables创建一个名为<code>PERSONAL_TOKEN</code>的Secrets，如下图</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="secrets.png"/></div></div>
+
+<h2 id="配置Actions"><a href="#配置Actions" class="headerlink" title="配置Actions"></a>配置Actions</h2><p>这一步我们定义Actions在什么时候触发，触发后执行什么操作。在源码库下新建<code>.github/workflows/auto-deploy.yml</code>，例如我的内容如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">auto</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line">  <span class="attr">push:</span>   <span class="comment"># 触发的条件为push操作，如果向这个仓库push，就是执行下面的jobs</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span> <span class="comment"># 运行环境为最新版 Ubuntu</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">auto</span> <span class="string">deploy</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="comment"># 1. 获取源码</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span> <span class="comment"># 使用 actions/checkout@v3</span></span><br><span class="line">      <span class="attr">with:</span> <span class="comment"># 条件</span></span><br><span class="line">        <span class="attr">submodules:</span> <span class="literal">true</span> <span class="comment"># Checkout private submodules(themes or something else). 当有子模块时切换分支？</span></span><br><span class="line">    <span class="comment"># 2. 配置环境</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Node.js</span> <span class="number">18.12</span><span class="string">.x</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/setup-node@master</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">node-version:</span> <span class="string">&quot;18.12.x&quot;</span></span><br><span class="line">    <span class="comment"># 3. 生成静态文件</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Generate</span> <span class="string">Public</span> <span class="string">Files</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        npm i</span></span><br><span class="line"><span class="string">        npm install hexo-cli -g</span></span><br><span class="line"><span class="string">        hexo clean &amp;&amp; hexo generate</span></span><br><span class="line"><span class="string"></span>    <span class="comment"># 4. 部署到 GitHub 仓库（可选）</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">to</span> <span class="string">GitHub</span> <span class="string">Pages</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v3</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">personal_token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.PERSONAL_TOKEN</span> <span class="string">&#125;&#125;</span>  <span class="comment"># 这个就是配置的secrets</span></span><br><span class="line">        <span class="attr">external_repository:</span> <span class="string">$&#123;username&#125;/$&#123;username&#125;.github.io</span>  <span class="comment"># 需要修改为自己的用户名</span></span><br><span class="line">        <span class="attr">publish_branch:</span> <span class="string">gh-pages</span>  <span class="comment"># 推到了公开库的gh-pages分支</span></span><br><span class="line">        <span class="attr">publish_dir:</span> <span class="string">./public</span></span><br><span class="line">        <span class="attr">commit_message:</span> <span class="string">$&#123;&#123;</span> <span class="string">github.event.head_commit.message</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">user_name:</span> <span class="string">&#x27;$&#123;username&#125;&#x27;</span>  <span class="comment"># 需要修改为自己的用户名</span></span><br><span class="line">        <span class="attr">user_email:</span> <span class="string">&#x27;$&#123;username&#125;@exampe.com&#x27;</span>  <span class="comment"># 需要修改为自己的邮箱</span></span><br></pre></td></tr></table></figure>
+<p>上面的文件定义了一个完整的Actions，最终将编译好的博客push到公开库的gh-pages分支。需要注意的是，如果公开库设定的展示分支不是gh-pages，需要修改为gh-pages。或者修改上面的配置，将<code>publish_branch</code>改为自己的分支。</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="image.png"/></div></div>
+
+<p>至此，Actions就被配置好了。我们在源码库写完博客后，<code>git add</code>、<code>git commit</code>到Github上就会自动部署到Github Pages，非常方便。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://lgong.site/lgong-02.html">https://lgong.site/lgong-02.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.goodfun.me/post/%E5%BB%BA%E7%AB%99%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AF%87-Hugo+Github-Pages+Github-Action%E5%8D%9A%E5%AE%A2%E6%96%B9%E6%A1%88%E4%B9%8B%E4%B8%89%E9%85%8D%E7%BD%AEGithub-Action%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83/">https://www.goodfun.me/post/%E5%BB%BA%E7%AB%99%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AF%87-Hugo+Github-Pages+Github-Action%E5%8D%9A%E5%AE%A2%E6%96%B9%E6%A1%88%E4%B9%8B%E4%B8%89%E9%85%8D%E7%BD%AEGithub-Action%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83/</a></li>
+<li><a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/posts/actions-deploy/">https://hexo.fluid-dev.com/posts/actions-deploy/</a></li>
+</ul>
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="http://sereland.github.io/2023/08/19/hexo-with-actions/" /></div><div class="social-wrap dis-select"><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2023/08/19/hello-world/">Hello World</a></div><div class="item" id="next"></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 @Sereland 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
