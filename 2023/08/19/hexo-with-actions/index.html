@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://sereland.github.io/2023/08/19/hexo-with-actions/secrets.png">
 <meta property="og:image" content="http://sereland.github.io/2023/08/19/hexo-with-actions/branch.png">
 <meta property="article:published_time" content="2023-08-19T12:51:05.000Z">
-<meta property="article:modified_time" content="2023-08-21T14:42:37.012Z">
+<meta property="article:modified_time" content="2023-09-08T14:52:25.294Z">
 <meta property="article:author" content="Sereland">
 <meta property="article:tag" content="教程, hexo">
 <meta name="twitter:card" content="summary">
@@ -118,7 +118,7 @@
 <li>公开库<br>如果我们在源码库里执行<code>hexo g</code>会产生一个<code>public</code>文件夹，这个文件夹包含了编译后的静态网页文件，也是公开库的内容，在Github上对应仓库<code>$&#123;username&#125;.github.io</code>。</li>
 </ul>
 <p>整体的流程是：本地写博客-&gt;push到源码库-&gt;命中Actions的触发条件，自动执行编译-&gt;自动将编译得到的public文件夹内容push到公开库-&gt;完成。</p>
-<h2 id="Secrets"><a href="#Secrets" class="headerlink" title="Secrets"></a>Secrets</h2><p>Secrets可以理解为Actions工作的一个凭证，在Github上创建。创建方式是：头像-&gt;Settings-&gt;Developer Settings-&gt;Personal Access Tokens-&gt;Tokens(classic)-&gt;Generate new token-&gt;选择workflow，如下所示</p>
+<h2 id="Secrets"><a href="#Secrets" class="headerlink" title="Secrets"></a>Secrets</h2><p>Secrets可以理解为Actions工作的一个凭证，配置文件中的Secrets和在Github上设置的Secrets一致时，Actions中的相关步骤才能正常执行。在Github上创建Secrets的方法是：头像-&gt;Settings-&gt;Developer Settings-&gt;Personal Access Tokens-&gt;Tokens(classic)-&gt;Generate new token-&gt;选择workflow，如下所示</p>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="generate_new_token.png"/></div></div>
 <p>然后拷贝生成的token，打开Github上的源码库-&gt;Settings-&gt;Secrets and variables创建一个名为<code>PERSONAL_TOKEN</code>的Secrets，如下图</p>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="secrets.png"/></div></div>
