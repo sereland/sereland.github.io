@@ -20,25 +20,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>国庆九日记 - Sereland</title>
+  <title>常用优化器总结（一） - Sereland</title>
 
   
-    <meta name="description" content="国庆节是下半年最长的节日，今年因为国庆节和中秋节重叠，所以一共有8天的假期。当然，假期结束后也会有2天的调休。想用这篇博客记录下我在这个假期里的生活。 2023&#x2F;09&#x2F;28今天是我的假期的第一天。实际上，法定假期从明天才开始，因为明天是中秋节，所以我请了一天假提前走了。国庆节景区人会非常的多，去景区也没有很好的体验，再加上我最近非常累，所以选择了回家休息。因为头天晚上睡不着，而">
+    <meta name="description" content="什么是优化器优化器（Optimizer），或者称优化算法，是机器学习或深度学习中用来最小化损失函数的算法。损失函数用来衡量模型预测值和实际值之间的差异，优化器则可以通过一定的策略自动调整模型中的参数值，以使得损失函数的值尽可能的小。 符号约定以下是本文中会遇到的一些符号：  $\theta$: 模型的参数 $J(\theta)$: 损失函数 $\Delta_\theta J(\theta)$：参数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="国庆九日记">
-<meta property="og:url" content="http://sereland.github.io/2023/09/28/nations-day/index.html">
+<meta property="og:title" content="常用优化器总结（一）">
+<meta property="og:url" content="http://sereland.github.io/2023/09/29/optimizer1/index.html">
 <meta property="og:site_name" content="Sereland">
-<meta property="og:description" content="国庆节是下半年最长的节日，今年因为国庆节和中秋节重叠，所以一共有8天的假期。当然，假期结束后也会有2天的调休。想用这篇博客记录下我在这个假期里的生活。 2023&#x2F;09&#x2F;28今天是我的假期的第一天。实际上，法定假期从明天才开始，因为明天是中秋节，所以我请了一天假提前走了。国庆节景区人会非常的多，去景区也没有很好的体验，再加上我最近非常累，所以选择了回家休息。因为头天晚上睡不着，而">
+<meta property="og:description" content="什么是优化器优化器（Optimizer），或者称优化算法，是机器学习或深度学习中用来最小化损失函数的算法。损失函数用来衡量模型预测值和实际值之间的差异，优化器则可以通过一定的策略自动调整模型中的参数值，以使得损失函数的值尽可能的小。 符号约定以下是本文中会遇到的一些符号：  $\theta$: 模型的参数 $J(\theta)$: 损失函数 $\Delta_\theta J(\theta)$：参数">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-09-28T12:01:56.000Z">
+<meta property="article:published_time" content="2023-09-29T09:12:38.000Z">
 <meta property="article:modified_time" content="2023-09-29T09:18:52.512Z">
 <meta property="article:author" content="Sereland">
-<meta property="article:tag" content="生活">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="优化器">
 <meta name="twitter:card" content="summary">
   
   
   
-  <meta name="keywords" content="生活">
+  <meta name="keywords" content="深度学习,优化器">
 
   <!-- feed -->
   
@@ -87,7 +88,7 @@
 <widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
 
-<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">国庆九日记</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2023-09-28"><span class="toc-text">2023&#x2F;09&#x2F;28</span></a></li></ol></div></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">常用优化器总结（一）</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BC%98%E5%8C%96%E5%99%A8"><span class="toc-text">什么是优化器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E7%BA%A6%E5%AE%9A"><span class="toc-text">符号约定</span></a></li></ol></div></div></widget>
 
 
 
@@ -103,27 +104,27 @@
 
 
 
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-09-28T12:01:56.000Z">2023-09-28</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-09-29T09:12:38.000Z">2023-09-29</time></div></div>
 
 <article class='md-text content post'>
-<h1 class="article-title"><span>国庆九日记</span></h1>
-<p>国庆节是下半年最长的节日，今年因为国庆节和中秋节重叠，所以一共有8天的假期。当然，假期结束后也会有2天的调休。想用这篇博客记录下我在这个假期里的生活。</p>
-<h2 id="2023-09-28"><a href="#2023-09-28" class="headerlink" title="2023&#x2F;09&#x2F;28"></a>2023&#x2F;09&#x2F;28</h2><p>今天是我的假期的第一天。实际上，法定假期从明天才开始，因为明天是中秋节，所以我请了一天假提前走了。国庆节景区人会非常的多，去景区也没有很好的体验，再加上我最近非常累，所以选择了回家休息。因为头天晚上睡不着，而且早上也起不来，所以一直拖到火车开前1个小时才出发，还好路上比较顺利，赶上了火车。可能是因为我提前走一天的原因，地铁和火车站的人流量是正常的水平，没有人特别多的感觉。在火车上，由于有人外放加上小孩吵闹的缘故，我基本上没有睡觉。到家后觉得挺累的，毕竟坐了一天，也没怎么吃饭。刚把饭吃了，打算今天早点睡。</p>
-<p>给自己的假期定一个基调：</p>
+<h1 class="article-title"><span>常用优化器总结（一）</span></h1>
+<h3 id="什么是优化器"><a href="#什么是优化器" class="headerlink" title="什么是优化器"></a>什么是优化器</h3><p>优化器（Optimizer），或者称优化算法，是机器学习或深度学习中用来最小化损失函数的算法。损失函数用来衡量模型预测值和实际值之间的差异，优化器则可以通过一定的策略自动调整模型中的参数值，以使得损失函数的值尽可能的小。</p>
+<h3 id="符号约定"><a href="#符号约定" class="headerlink" title="符号约定"></a>符号约定</h3><p>以下是本文中会遇到的一些符号：</p>
 <ul>
-<li>早睡早起</li>
-<li>少玩手机</li>
-<li>增强自律</li>
+<li>$\theta$: 模型的参数</li>
+<li>$J(\theta)$: 损失函数</li>
+<li>$\Delta_\theta J(\theta)$：参数$\theta$的梯度</li>
+<li>$\eta$：学习率</li>
 </ul>
 
 
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
-</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="http://sereland.github.io/2023/09/28/nations-day/" /></div><div class="social-wrap dis-select"><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div></div></section></div>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="http://sereland.github.io/2023/09/29/optimizer1/" /></div><div class="social-wrap dis-select"><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div></div></section></div>
 
 </article>
 
-<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2023/09/29/optimizer1/">常用优化器总结（一）</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/08/19/hexo-with-actions/">使用Github Actions实现Hexo博客的自动部署</a></div></section></div>
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/09/28/nations-day/">国庆九日记</a></div></section></div>
 
 
 
