@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://sereland.github.io/2023/09/29/optimizer1/jizhi.png">
 <meta property="og:image" content="http://sereland.github.io/2023/09/29/optimizer1/momentum.png">
 <meta property="article:published_time" content="2023-09-29T09:12:38.000Z">
-<meta property="article:modified_time" content="2023-09-29T12:42:20.082Z">
+<meta property="article:modified_time" content="2023-09-29T12:50:48.727Z">
 <meta property="article:author" content="Sereland">
 <meta property="article:tag" content="深度学习">
 <meta property="article:tag" content="优化器">
@@ -198,7 +198,18 @@
 
 <h2 id="Momentum"><a href="#Momentum" class="headerlink" title="Momentum"></a>Momentum</h2><p>Momentum的目的是降低SGD在优化过程中的波动，加快SGD的收敛速度。具体来说，Momentum将梯度更新看作是一个运动的过程，在其中引入了动量的概念，梯度更新的方向就是动量的方向。Momentum每次在进行梯度更新时，不仅考虑当前梯度的方向，还会考虑之前梯度的方向，这样相当于在参数更新时增加一个惯性，能够在一定程度上减少梯度更新的震荡，使得参数更新的方向更加的稳定。</p>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="momentum.png"/></div></div>
-<p>如上图所示，左边原始的SGD在更新过程中梯度的方向波动较大，而由于Momentum由于考虑了之前梯度的方向，所以波动会相对较小。举个例子，假设之前梯度的方向是向上的，而当前梯度的方向是向下的。如果没有Momentum，则梯度会完全向下更新。在Momentum中，由于考虑了之前向上的梯度，所以之前向上的梯度和当前向下的梯度会做一个抵消，削弱了向下更新的程度，梯度会更专注于向着最小值方向（向右）前进，从而使得更新过程更加平滑和稳定。<br>Momentum可以被形式化为以下公式<br>$$<br>v_t &#x3D; \beta v_{t-1} + \eta \nabla_\theta J(\theta)<br>\theta &#x3D; \theta - v_t<br>$$</p>
+<p>如上图所示，左边原始的SGD在更新过程中梯度的方向波动较大，而由于Momentum由于考虑了之前梯度的方向，所以波动会相对较小。</p>
+<p>举个例子，假设之前梯度的方向是向上的，而当前梯度的方向是向下的。如果没有Momentum，则梯度会完全向下更新。在Momentum中，由于考虑了之前向上的梯度，所以之前向上的梯度和当前向下的梯度会做一个抵消，削弱了向下更新的程度，梯度会更专注于向着最小值方向（向右）前进，从而使得更新过程更加平滑和稳定，收敛速度也会更快。</p>
+<p>Momentum可以被形式化为以下公式<br>$$<br>v_t &#x3D; \beta v_{t-1} + (1 - \beta) \nabla_\theta J(\theta) \<br>\theta &#x3D; \theta - \eta v_t<br>$$<br>其中</p>
+<ul>
+<li>$v_t$是当前时刻的动量（梯度），$v_{t-1}$是前一时刻的动量，$v_0$初始化为0；</li>
+<li>$\beta$是Momentum的超参数，取值范围为[0, 1]，常见值为0.9；</li>
+<li>$\eta$为学习率；</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>可以减少梯度更新过程中的震荡，并加速收敛；</li>
+</ul>
 
 
 
