@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://sereland.github.io/2023/09/29/optimizer1/jizhi.png">
 <meta property="og:image" content="http://sereland.github.io/2023/09/29/optimizer1/momentum.png">
 <meta property="article:published_time" content="2023-09-29T09:12:38.000Z">
-<meta property="article:modified_time" content="2023-09-30T07:23:26.801Z">
+<meta property="article:modified_time" content="2023-09-30T15:10:10.111Z">
 <meta property="article:author" content="Sereland">
 <meta property="article:tag" content="深度学习">
 <meta property="article:tag" content="优化器">
@@ -157,7 +157,7 @@
 <li>优点
 <ul>
 <li>每次只使用一个样本更新参数，不会有数据无法加载到内存中的情况；</li>
-<li>对于非凸函数，批量梯度下降会收敛到极值点，而由于随机梯度下降每次只使用一个样本计算梯度，相当于只考虑了局部数据的特征，这会使得损失函数值的波动比较剧烈，可能会跳出极小值点，从而收敛到最小值点；</li>
+<li>对于非凸函数，批量梯度下降会收敛到极值点，而由于随机梯度下降每次只使用一个样本计算梯度，相当于只考虑了局部数据的特征，这会使得梯度方向（损失函数的值）的波动比较剧烈，可能会跳出极小值点，从而收敛到最小值点；</li>
 </ul>
 </li>
 <li>缺点
