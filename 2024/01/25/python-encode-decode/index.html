@@ -23,15 +23,15 @@
   <title>Python中的编码 - Sereland</title>
 
   
-    <meta name="description" content="此文非最终版本，更新中 计算机中的编码 字节（bytes） 计算机在处理、存储、传输数据时，都是在对0和1组成的比特（bit）序列进行操作，8个比特组成1个字节，也就是1 byte &#x3D; 8 bits。单纯的01序列是没有意义的，需要通过编码将01序列映射到有意义的值上面。例如，ASCII码定义了二进制序列和英语字符之间的关系：使用1个byte表示一个英语字符且第一位置为0，则1个byte可以表示1">
+    <meta name="description" content="此文非最终版本，更新中  计算机中的编码 字节（bytes） 计算机在处理、存储、传输数据时，都是在对0和1组成的比特（bit）序列进行操作，8个比特组成1个字节，也就是1 byte &#x3D; 8 bits。单纯的01序列是没有意义的，需要通过编码将01序列映射到有意义的值上面。例如，ASCII码定义了二进制序列和英语字符之间的关系：使用1个byte表示一个英语字符且第一位置为0，则1个byte可以表">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python中的编码">
 <meta property="og:url" content="http://sereland.github.io/2024/01/25/python-encode-decode/index.html">
 <meta property="og:site_name" content="Sereland">
-<meta property="og:description" content="此文非最终版本，更新中 计算机中的编码 字节（bytes） 计算机在处理、存储、传输数据时，都是在对0和1组成的比特（bit）序列进行操作，8个比特组成1个字节，也就是1 byte &#x3D; 8 bits。单纯的01序列是没有意义的，需要通过编码将01序列映射到有意义的值上面。例如，ASCII码定义了二进制序列和英语字符之间的关系：使用1个byte表示一个英语字符且第一位置为0，则1个byte可以表示1">
+<meta property="og:description" content="此文非最终版本，更新中  计算机中的编码 字节（bytes） 计算机在处理、存储、传输数据时，都是在对0和1组成的比特（bit）序列进行操作，8个比特组成1个字节，也就是1 byte &#x3D; 8 bits。单纯的01序列是没有意义的，需要通过编码将01序列映射到有意义的值上面。例如，ASCII码定义了二进制序列和英语字符之间的关系：使用1个byte表示一个英语字符且第一位置为0，则1个byte可以表">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-01-25T13:42:15.000Z">
-<meta property="article:modified_time" content="2024-01-25T14:02:17.684Z">
+<meta property="article:modified_time" content="2024-01-25T14:05:06.758Z">
 <meta property="article:author" content="Sereland">
 <meta name="twitter:card" content="summary">
   
@@ -110,7 +110,9 @@
 
 <article class='md-text content post'>
 <h1 class="article-title"><span>Python中的编码</span></h1>
-<div class="tag-plugin note" color="green"><div class="body"><p>此文非最终版本，更新中</p></div></div>
+<blockquote>
+<p>此文非最终版本，更新中</p>
+</blockquote>
 <h2 id="计算机中的编码">计算机中的编码</h2>
 <h3 id="字节（bytes）">字节（bytes）</h3>
 <p>计算机在处理、存储、传输数据时，都是在对0和1组成的比特（bit）序列进行操作，8个比特组成1个字节，也就是1 byte = 8 bits。单纯的01序列是没有意义的，需要通过编码将01序列映射到有意义的值上面。例如，ASCII码定义了二进制序列和英语字符之间的关系：使用1个byte表示一个英语字符且第一位置为0，则1个byte可以表示128个英语字符，如二进制序列为01000001对应大写字母A。</p>
